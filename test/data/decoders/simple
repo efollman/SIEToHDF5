@@ -1,0 +1,39 @@
+# file format is:
+#
+# file := decoder_xml ( blank_line data blank_line expected_output )*
+#
+# lines beginning with # are completely ignored
+#
+# note no endian on read of bits 8, should be legal
+<decoder>
+  <loop var="v0" start="1">
+    <read var="v1" type="int" bits="8"/>
+    <sample/>
+  </loop>
+</decoder>
+
+# five bytes of data, 0x01 0x02 0x03 0x04 0x05
+# newlines within the data don't matter
+# a blank line terminates
+1 2 3 
+4 5
+
+# expected output
+# first line: number of dimensions
+2
+# then: data points in float64
+# for raw, use x0123456789abcdef
+1 1
+2 2
+3 3
+4 4
+5 5
+
+6 7 8 9 a
+
+2
+1 6
+2 7
+3 8
+4 9
+5 10

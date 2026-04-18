@@ -1,0 +1,40 @@
+Channel id 49, "tal1d_ed@Minus16.RN_1":
+  group 28
+  Tag "DataMode": "tal1d_ed"
+  Tag "DataModeType": "TAL_1D"
+  Tag "SIE:data_bits": "16"
+  Tag "SIE:data_format": "int"
+  Tag "NodeName": "edaq13"
+  Tag "Connector": "VBM_1.v004"
+  Tag "Description": "Signed 16 Bit Value"
+  Tag "ChanDataType": "784"
+  Tag "CalDate": "01/28/05"
+  Tag "PrerunZeroMode": "Undefined"
+  Tag "ObjectID": "0"
+  Tag "TransducerID": "0"
+  Dimension index 0:
+    group 28
+    decoder_id 10
+    decoder_v 0
+  Dimension index 1:
+    group 28
+    decoder_id 10
+    decoder_v 1
+    Tag "Description": "Axis 0 Bin Min"
+  Dimension index 2:
+    group 28
+    decoder_id 10
+    decoder_v 1
+    Tag "Description": "Axis 0 Bin Max"
+scan[0]: v[0] = 0; v[1] = 0; v[2] = 0; 
+scan[1]: v[0] = 0; v[1] = 1; v[2] = 1; 
+scan[2]: v[0] = 0; v[1] = 2; v[2] = 2; 
+scan[3]: v[0] = 0; v[1] = 3; v[2] = 3; 
+scan[4]: v[0] = 0; v[1] = 4; v[2] = 4; 
+scan[5]: v[0] = 460; v[1] = 5; v[2] = 5; 
+scan[6]: v[0] = 0; v[1] = 6; v[2] = 6; 
+scan[7]: v[0] = 0; v[1] = 7; v[2] = 7; 
+scan[8]: v[0] = 0; v[1] = 8; v[2] = 8; 
+scan[9]: v[0] = 0; v[1] = 9; v[2] = 9; 
+scan[10]: v[0] = 0; v[1] = 10; v[2] = 10; 
+scan[11]: v[0] = 0; v[1] = 11; v[2] = 11; 

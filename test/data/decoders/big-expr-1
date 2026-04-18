@@ -1,0 +1,9 @@
+<decoder>
+  <set var="v0" value="{10 * ((25 / 4) + 12) * 2 / 40 * (20 * 20)}"/>
+  <sample/>
+</decoder>
+
+# no data
+
+1
+3650

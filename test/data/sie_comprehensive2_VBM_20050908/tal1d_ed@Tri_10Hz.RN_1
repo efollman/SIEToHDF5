@@ -1,0 +1,46 @@
+Channel id 50, "tal1d_ed@Tri_10Hz.RN_1":
+  group 29
+  Tag "DataMode": "tal1d_ed"
+  Tag "DataModeType": "TAL_1D"
+  Tag "SIE:data_bits": "32"
+  Tag "SIE:data_format": "float"
+  Tag "NodeName": "edaq13"
+  Tag "Connector": "n/a"
+  Tag "Description": "Sim FG Tri_10Hz"
+  Tag "ChanDataType": "32"
+  Tag "FGMode": "Triangle"
+  Tag "PeriodSamples": "50"
+  Tag "DutyCycle": "50"
+  Tag "Scale": "1000"
+  Tag "Offset": "0"
+  Tag "Decay": "1"
+  Tag "Drift": "0"
+  Tag "Cycles": "10000000"
+  Tag "ObjectID": "0"
+  Tag "TransducerID": "0"
+  Dimension index 0:
+    group 29
+    decoder_id 10
+    decoder_v 0
+  Dimension index 1:
+    group 29
+    decoder_id 10
+    decoder_v 1
+    Tag "Description": "Axis 0 Bin Min"
+  Dimension index 2:
+    group 29
+    decoder_id 10
+    decoder_v 1
+    Tag "Description": "Axis 0 Bin Max"
+scan[0]: v[0] = 217; v[1] = 0; v[2] = 0; 
+scan[1]: v[0] = 9; v[1] = 1; v[2] = 1; 
+scan[2]: v[0] = 9; v[1] = 2; v[2] = 2; 
+scan[3]: v[0] = 0; v[1] = 3; v[2] = 3; 
+scan[4]: v[0] = 0; v[1] = 4; v[2] = 4; 
+scan[5]: v[0] = 0; v[1] = 5; v[2] = 5; 
+scan[6]: v[0] = 0; v[1] = 6; v[2] = 6; 
+scan[7]: v[0] = 0; v[1] = 7; v[2] = 7; 
+scan[8]: v[0] = 0; v[1] = 8; v[2] = 8; 
+scan[9]: v[0] = 9; v[1] = 9; v[2] = 9; 
+scan[10]: v[0] = 9; v[1] = 10; v[2] = 10; 
+scan[11]: v[0] = 207; v[1] = 11; v[2] = 11; 

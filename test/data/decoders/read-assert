@@ -1,0 +1,18 @@
+<decoder>
+  <read var="v0" type="int" bits="32" endian="big" value="0x01020304"/>
+  <sample/>
+</decoder>
+
+1 2 3 4
+
+1
+0x01020304
+
+1 2 3 5
+
+fail
+
+1 2 3 4
+
+1
+0x01020304

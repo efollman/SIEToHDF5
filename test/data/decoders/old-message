@@ -1,0 +1,28 @@
+<decoder>
+ <loop>
+  <read var="size" bits="16" type="uint" endian="little"/>
+  <read var="timestamp_hi" bits="32" type="uint" endian="little"/>
+  <read var="timestamp_lo" bits="32" type="uint" endian="little"/>
+  <set var="v0" value="{$timestamp_lo + ($timestamp_hi * 4294967296.0)}"/>
+  <read var="v1" octets="{$size - 10}" type="raw"/>
+  <sample/>
+ </loop>
+</decoder>
+
+1a 00        00 00 00 00 00 00 00 00   0 1 2 3 4 5 6 7 8 9 a b c d e f
+# 26 bytes      time 0                    message
+
+2
+0 x000102030405060708090a0b0c0d0e0f
+
+0e 00   00 00 00 00 00 00 00 00   de ad be ef
+0e 00   00 00 00 00 10 00 00 00   fe ed be ef
+# zero length
+0a 00   00 00 00 00 20 00 00 00
+0e 00   01 00 00 00 01 00 00 00   c0 ff ee 00
+
+2
+0           xdeadbeef
+16          xfeedbeef
+32          x
+4294967297  xc0ffee00

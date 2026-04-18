@@ -1,0 +1,28 @@
+<decoder>
+  <read var="v0" type="uint" bits="32" endian="little"/>
+  <loop var="v0">
+    <read var="v1" type="uint" bits="16" endian="big"/>
+    <sample/>
+  </loop>
+</decoder>
+
+1 0 0 0
+0 1 0 2 0 3 0 4 0 5
+
+2
+1 1
+2 2
+3 3
+4 4
+5 5
+
+0 1 0 0
+1 0 2 0 3 0 4 0 5 0 6
+# note one byte of trash at the end
+
+2
+256 256
+257 512
+258 768
+259 1024
+260 1280

@@ -1,0 +1,54 @@
+<decoder>
+ <read var="v0" bits="64" type="uint" endian="little"/>
+ <read var="count" bits="64" type="uint" endian="little"/>
+ <loop var="t0" end="{$count >> 3}">
+   <read var="vb" bits="8" type="uint" endian="little"/>
+   <loop var="shift" start="7" increment="-1" end="-1">
+    <set var="v1" value="{($vb >> $shift) &amp; 1}"/>
+    <sample/>
+    <set var="v0" value="{$v0 + 1}"/>
+   </loop>
+ </loop>
+ <read var="vb" bits="8" type="uint" endian="little"/>
+ <loop var="shift" start="7" increment="-1" end="{7 - ($count &amp; 7)}">
+  <set var="v1" value="{($vb >> $shift) &amp; 1}"/>
+  <sample/>
+  <set var="v0" value="{$v0 + 1}"/>
+ </loop>
+</decoder>
+
+00 00 00 00 00 00 00 00
+13 00 00 00 00 00 00 00
+# 19 bits count
+92 34 56 78
+# 10010010001101000101011001111000
+
+2
+0 1
+1 0
+2 0
+3 1
+4 0
+5 0
+6 1
+7 0
+8 0
+9 0
+10 1
+11 1
+12 0
+13 1
+14 0
+15 0
+16 0
+17 1
+18 0
+
+00 00 00 00 00 00 00 00
+01 00 00 00 00 00 00 00
+# 0 bits count
+12 34 56 78
+# trash
+
+2
+0 0

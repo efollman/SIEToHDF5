@@ -1,0 +1,41 @@
+<decoder>
+ <read var="v0" bits="64" type="uint" endian="little"/>
+ <loop>
+  <set var="tdelta" value="0"/>
+  <loop var="done" start="0" increment="0" end="1">
+   <read var="t" bits="8" type="uint"/>
+   <set var="tdelta" value="{($tdelta * 128) + ($t &amp; 127)}"/>
+   <set var="done" value="{!($t &amp; 128)}"/>
+  </loop>
+  <set var="v0" value="{$v0 + $tdelta}"/>
+  <set var="size" value="0"/>
+  <loop var="done" start="0" increment="0" end="1">
+   <read var="t" bits="8" type="uint"/>
+   <set var="size" value="{($size * 0x80) + ($t &amp; 127)}"/>
+   <set var="done" value="{!($t &amp; 128)}"/>
+  </loop>
+  <read var="v1" octets="{$size}" type="raw"/>
+  <sample/>
+ </loop>
+</decoder>
+
+# start at 0
+00 00 00 00 00 00 00 00
+# message 0xDEADBEEF at time 10
+0a   04  de ad be ef
+
+2
+10  xdeadbeef
+
+00 00 00 00 00 00 00 00
+# message 0xDEADBEEF at time 128
+81 00   04  de ad be ef
+# zero-length message at time 16511 (+0x3fff)
+ff 7f   00
+# message 0xDEADBEEF at time 16512
+01   04  de ad be ef
+
+2
+128    xdeadbeef
+16511  x
+16512  xdeadbeef

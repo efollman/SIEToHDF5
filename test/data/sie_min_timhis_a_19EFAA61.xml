@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sie version="0.1" xmlns="http://www.somat.com/SIE">
+
+<!-- SIE Format standard definitions -->
+
+<!-- SIE Stream decoder -->
+
+ <decoder id="0">
+  <loop>
+   <read var="size" bits="32" type="uint" endian="big"/>
+   <read var="group" bits="32" type="uint" endian="big"/>
+   <read var="magic" bits="32" type="uint" endian="big" value="0x51EDA7A0"/>
+   <read var="payload" octets="{$size - 20}" type="raw" group="{$group}"/>
+   <read var="checksum" bits="32" type="uint" endian="big"/>
+   <read var="size2" bits="32" type="uint" endian="big" value="{$size}"/>
+  </loop>
+ </decoder>
+
+ <tag id="SIE:XML_Definition" group="0" format="text/xml"/>
+
+<!-- Index Block decoder: v0=offset, v1=group -->
+
+ <tag id="SIE:BlockIndex" group="1" decoder="1"/>
+
+ <decoder id="1">
+  <loop>
+   <read var="v0" bits="64" type="uint" endian="big"/>
+   <read var="v1" bits="32" type="uint" endian="big"/>
+   <sample/>
+  </loop>
+ </decoder>
+
+<!-- Stream-specific definitions begin here -->
+
+ <tag id="SIE:Log" group="2" format="text/plain"/>
+ <tag id="SIE:TCE_SetupName">sie_min_timhis_a</tag>
+
+ <tag id="SIE:TCE_Setup" group="3" format="application/tce"/>
+
+ <decoder id="2">
+  <read var="v0" bits="64" type="uint" endian="little"/>
+  <loop var="v0">
+   <read var="v1" bits="32" type="float" endian="little"/>
+   <sample/>
+  </loop>
+ </decoder>
+
+ <channel id="0" name="timhis@Tri_10Hz">
+  <tag id="DataMode">timhis</tag>
+  <tag id="DataModeType">TIMHIS</tag>
+  <tag id="SIE:data_bits">32</tag>
+  <tag id="SIE:data_format">float</tag>
+  <tag id="TCE:NodeName">edaq13</tag>
+  <tag id="InputChannel">Tri_10Hz</tag>
+  <tag id="TCE:Connector">n/a</tag>
+  <tag id="Description">Sim FG Tri_10Hz</tag>
+  <tag id="TCE:ChanDataType">32</tag>
+  <tag id="TCE:FGMode">Triangle</tag>
+  <tag id="TCE:PeriodSamples">50</tag>
+  <tag id="TCE:DutyCycle">50</tag>
+  <tag id="TCE:Scale">1000</tag>
+  <tag id="TCE:Offset">0</tag>
+  <tag id="TCE:Decay">1</tag>
+  <tag id="TCE:Drift">0</tag>
+  <tag id="TCE:Cycles">10000000</tag>
+  <tag id="TCE:ObjectID">0</tag>
+  <tag id="TCE:TransducerID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <tag id="SIE:units">sec</tag>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="2" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">-50</tag>
+   <tag id="FS_Max">50</tag>
+   <tag id="InputChannel">Tri_10Hz</tag>
+   <tag id="SIE:units">millivolts</tag>
+   <data decoder="2" v="1"/>
+  </dimension>
+ </channel>
+
+ <test id="0">
+  <tag id="StartTime">2006-02-17T17:20:52-0600</tag>
+  <tag id="Run">1</tag>
+  <tag id="RunDescription">None</tag>
+  <tag id="XdcrRezero">Run# 1
+</tag>
+  <channel id="1" base="0" group="4" name="timhis@Tri_10Hz.RN_1"/>
+ </test>
+
+
+ <test id="0">
+  <tag id="EndTime">2006-02-17T17:21:04-0600</tag>
+  <tag id="ElapsedTime">10</tag>
+  <channel id="1">
+   <tag id="SampleCount">520</tag>
+  </channel>
+ </test>
+
+ <test id="1">
+  <tag id="StartTime">2006-02-17T17:27:07-0600</tag>
+  <tag id="Run">2</tag>
+  <tag id="RunDescription">None</tag>
+  <tag id="XdcrRezero">Run# 2
+</tag>
+  <channel id="2" base="0" group="5" name="timhis@Tri_10Hz.RN_2"/>
+ </test>
+
+
+ <test id="1">
+  <tag id="EndTime">2006-02-17T17:27:18-0600</tag>
+  <tag id="ElapsedTime">10</tag>
+  <channel id="2">
+   <tag id="SampleCount">520</tag>
+  </channel>
+ </test>
+</sie>

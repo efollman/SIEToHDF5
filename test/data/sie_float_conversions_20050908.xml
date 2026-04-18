@@ -1,0 +1,979 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sie version="0.1" xmlns="http://www.somat.com/SIE">
+
+<!-- SIE Format standard definitions -->
+
+<!-- SIE Stream decoder -->
+
+ <decoder id="0">
+  <loop>
+   <read var="size" bits="32" type="uint" endian="big"/>
+   <read var="group" bits="32" type="uint" endian="big"/>
+   <read var="magic" bits="32" type="uint" endian="big" value="0x51EDA7A0"/>
+   <read var="payload" octets="{$size - 20}" type="raw" group="{$group}"/>
+   <read var="checksum" bits="32" type="uint" endian="big"/>
+   <read var="size2" bits="32" type="uint" endian="big" value="{$size}"/>
+  </loop>
+ </decoder>
+
+ <tag id="SIE:XML_Definition" group="0" format="text/xml"/>
+
+<!-- Index Block decoder: v0=offset, v1=group -->
+
+ <tag id="SIE:BlockIndex" group="1" decoder="1"/>
+
+ <decoder id="1">
+  <loop>
+   <read var="v0" bits="64" type="uint" endian="big"/>
+   <read var="v1" bits="32" type="uint" endian="big"/>
+   <sample/>
+  </loop>
+ </decoder>
+
+<!-- Stream-specific definitions begin here -->
+
+ <tag id="SIE:Log" group="2" format="text/plain"/>
+ <tag id="SIE:TCE_SetupName">sie_float_conversions</tag>
+
+ <tag id="SIE:TCE_Setup" group="3" format="application/tce"/>
+
+ <decoder id="2">
+  <read var="v0" bits="64" type="uint" endian="little"/>
+  <loop var="v0">
+   <read var="v1" bits="32" type="float" endian="little"/>
+   <sample/>
+  </loop>
+ </decoder>
+
+ <channel id="0" name="timhis@Tri_1Hz">
+  <tag id="DataMode">timhis</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">32</tag>
+  <tag id="SIE:data_format">float</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Connector">n/a</tag>
+  <tag id="Description">Sim FG Tri_1Hz</tag>
+  <tag id="ChanDataType">32</tag>
+  <tag id="FGMode">Triangle</tag>
+  <tag id="PeriodSamples">50</tag>
+  <tag id="DutyCycle">50</tag>
+  <tag id="Scale">1000</tag>
+  <tag id="Offset">0</tag>
+  <tag id="Decay">1</tag>
+  <tag id="Drift">0</tag>
+  <tag id="Cycles">10000000</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="TransducerID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="2" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">-1000</tag>
+   <tag id="FS_Max">1000</tag>
+   <units>millivolts</units>
+   <data decoder="2" v="1"/>
+  </dimension>
+ </channel>
+
+ <channel id="1" name="timhis@Tri_Clip_1Hz">
+  <tag id="DataMode">timhis</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">32</tag>
+  <tag id="SIE:data_format">float</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Connector">n/a</tag>
+  <tag id="Description">Sim FG Tri_Clip_1Hz</tag>
+  <tag id="ChanDataType">32</tag>
+  <tag id="FGMode">Triangle</tag>
+  <tag id="PeriodSamples">50</tag>
+  <tag id="DutyCycle">50</tag>
+  <tag id="Scale">1000</tag>
+  <tag id="Offset">0</tag>
+  <tag id="Decay">1</tag>
+  <tag id="Drift">0</tag>
+  <tag id="Cycles">10000000</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="TransducerID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="2" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">-500</tag>
+   <tag id="FS_Max">500</tag>
+   <units>millivolts</units>
+   <data decoder="2" v="1"/>
+  </dimension>
+ </channel>
+
+ <channel id="2" name="timhis@Sine_halfHz">
+  <tag id="DataMode">timhis</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">32</tag>
+  <tag id="SIE:data_format">float</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Connector">n/a</tag>
+  <tag id="Description">Sim FG Sine_halfHz</tag>
+  <tag id="ChanDataType">32</tag>
+  <tag id="FGMode">Sine</tag>
+  <tag id="PeriodSamples">100</tag>
+  <tag id="DutyCycle">50</tag>
+  <tag id="Scale">1000</tag>
+  <tag id="Offset">0</tag>
+  <tag id="Decay">1</tag>
+  <tag id="Drift">0</tag>
+  <tag id="Cycles">10000000</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="TransducerID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="2" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">-1000</tag>
+   <tag id="FS_Max">1000</tag>
+   <units>millivolts</units>
+   <data decoder="2" v="1"/>
+  </dimension>
+ </channel>
+
+ <channel id="3" name="timhis@Sine_Clip">
+  <tag id="DataMode">timhis</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">32</tag>
+  <tag id="SIE:data_format">float</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Connector">n/a</tag>
+  <tag id="Description">Sim FG Sine_Clip</tag>
+  <tag id="ChanDataType">32</tag>
+  <tag id="FGMode">Sine</tag>
+  <tag id="PeriodSamples">100</tag>
+  <tag id="DutyCycle">50</tag>
+  <tag id="Scale">1000</tag>
+  <tag id="Offset">0</tag>
+  <tag id="Decay">1</tag>
+  <tag id="Drift">0</tag>
+  <tag id="Cycles">10000000</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="TransducerID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="2" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">-250</tag>
+   <tag id="FS_Max">750</tag>
+   <units>millivolts</units>
+   <data decoder="2" v="1"/>
+  </dimension>
+ </channel>
+
+ <channel id="4" name="timhis@Square_1Hz">
+  <tag id="DataMode">timhis</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">32</tag>
+  <tag id="SIE:data_format">float</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Connector">n/a</tag>
+  <tag id="Description">Sim FG Square_1Hz</tag>
+  <tag id="ChanDataType">32</tag>
+  <tag id="FGMode">Square</tag>
+  <tag id="PeriodSamples">50</tag>
+  <tag id="DutyCycle">50</tag>
+  <tag id="Scale">1000</tag>
+  <tag id="Offset">0</tag>
+  <tag id="Decay">1</tag>
+  <tag id="Drift">0</tag>
+  <tag id="Cycles">10000000</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="TransducerID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="2" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">-1000</tag>
+   <tag id="FS_Max">1000</tag>
+   <units>millivolts</units>
+   <data decoder="2" v="1"/>
+  </dimension>
+ </channel>
+
+ <channel id="5" name="timhis@Tri_Bug">
+  <tag id="DataMode">timhis</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">32</tag>
+  <tag id="SIE:data_format">float</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Connector">n/a</tag>
+  <tag id="Description">Sim FG Tri_Bug</tag>
+  <tag id="ChanDataType">32</tag>
+  <tag id="FGMode">Triangle</tag>
+  <tag id="PeriodSamples">100</tag>
+  <tag id="DutyCycle">50</tag>
+  <tag id="Scale">9e+009</tag>
+  <tag id="Offset">0</tag>
+  <tag id="Decay">1</tag>
+  <tag id="Drift">0</tag>
+  <tag id="Cycles">999999</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="TransducerID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="2" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">-1</tag>
+   <tag id="FS_Max">1</tag>
+   <units></units>
+   <data decoder="2" v="1"/>
+  </dimension>
+ </channel>
+
+ <decoder id="3">
+  <read var="v0" bits="64" type="uint" endian="little"/>
+  <loop var="v0">
+   <read var="v1" bits="8" type="uint" endian="little"/>
+   <sample/>
+  </loop>
+ </decoder>
+
+ <channel id="6" name="timhis@stop_trigger">
+  <tag id="DataMode">timhis</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">8</tag>
+  <tag id="SIE:data_format">uint</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Description">Time Trigger</tag>
+  <tag id="ChanDataType">264</tag>
+  <tag id="InputChs">1</tag>
+  <tag id="InputCh_1">time</tag>
+  <tag id="InFixExpr">time > 10</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="3" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">0</tag>
+   <tag id="FS_Max">0</tag>
+   <units></units>
+   <data decoder="3" v="1"/>
+  </dimension>
+ </channel>
+
+ <channel id="7" name="timhis@run_stopper">
+  <tag id="DataMode">timhis</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">8</tag>
+  <tag id="SIE:data_format">uint</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Description">Run Stopper</tag>
+  <tag id="Type_1">Logical</tag>
+  <tag id="ChanDataType">264</tag>
+  <tag id="InputChs">1</tag>
+  <tag id="InputCh_1">stop_trigger</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="3" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">0</tag>
+   <tag id="FS_Max">1</tag>
+   <units></units>
+   <data decoder="3" v="1"/>
+  </dimension>
+ </channel>
+
+ <decoder id="4">
+  <read var="v0" bits="64" type="uint" endian="little"/>
+  <loop var="v0">
+   <read var="v1" bits="8" type="int" endian="little"/>
+   <sample/>
+  </loop>
+ </decoder>
+
+ <channel id="8" name="timhis_8@Tri_1Hz">
+  <tag id="DataMode">timhis_8</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">8</tag>
+  <tag id="SIE:data_format">int</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Connector">n/a</tag>
+  <tag id="Description">Sim FG Tri_1Hz</tag>
+  <tag id="ChanDataType">32</tag>
+  <tag id="FGMode">Triangle</tag>
+  <tag id="PeriodSamples">50</tag>
+  <tag id="DutyCycle">50</tag>
+  <tag id="Scale">1000</tag>
+  <tag id="Offset">0</tag>
+  <tag id="Decay">1</tag>
+  <tag id="Drift">0</tag>
+  <tag id="Cycles">10000000</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="TransducerID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="4" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">-1000</tag>
+   <tag id="FS_Max">1000</tag>
+   <units>millivolts</units>
+   <data decoder="4" v="1"/>
+  </dimension>
+ </channel>
+
+ <channel id="9" name="timhis_8@Tri_Clip_1Hz">
+  <tag id="DataMode">timhis_8</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">8</tag>
+  <tag id="SIE:data_format">int</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Connector">n/a</tag>
+  <tag id="Description">Sim FG Tri_Clip_1Hz</tag>
+  <tag id="ChanDataType">32</tag>
+  <tag id="FGMode">Triangle</tag>
+  <tag id="PeriodSamples">50</tag>
+  <tag id="DutyCycle">50</tag>
+  <tag id="Scale">1000</tag>
+  <tag id="Offset">0</tag>
+  <tag id="Decay">1</tag>
+  <tag id="Drift">0</tag>
+  <tag id="Cycles">10000000</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="TransducerID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="4" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">-500</tag>
+   <tag id="FS_Max">500</tag>
+   <units>millivolts</units>
+   <data decoder="4" v="1"/>
+  </dimension>
+ </channel>
+
+ <channel id="10" name="timhis_8@Sine_halfHz">
+  <tag id="DataMode">timhis_8</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">8</tag>
+  <tag id="SIE:data_format">int</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Connector">n/a</tag>
+  <tag id="Description">Sim FG Sine_halfHz</tag>
+  <tag id="ChanDataType">32</tag>
+  <tag id="FGMode">Sine</tag>
+  <tag id="PeriodSamples">100</tag>
+  <tag id="DutyCycle">50</tag>
+  <tag id="Scale">1000</tag>
+  <tag id="Offset">0</tag>
+  <tag id="Decay">1</tag>
+  <tag id="Drift">0</tag>
+  <tag id="Cycles">10000000</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="TransducerID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="4" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">-1000</tag>
+   <tag id="FS_Max">1000</tag>
+   <units>millivolts</units>
+   <data decoder="4" v="1"/>
+  </dimension>
+ </channel>
+
+ <channel id="11" name="timhis_8@Sine_Clip">
+  <tag id="DataMode">timhis_8</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">8</tag>
+  <tag id="SIE:data_format">int</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Connector">n/a</tag>
+  <tag id="Description">Sim FG Sine_Clip</tag>
+  <tag id="ChanDataType">32</tag>
+  <tag id="FGMode">Sine</tag>
+  <tag id="PeriodSamples">100</tag>
+  <tag id="DutyCycle">50</tag>
+  <tag id="Scale">1000</tag>
+  <tag id="Offset">0</tag>
+  <tag id="Decay">1</tag>
+  <tag id="Drift">0</tag>
+  <tag id="Cycles">10000000</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="TransducerID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="4" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">-250</tag>
+   <tag id="FS_Max">750</tag>
+   <units>millivolts</units>
+   <data decoder="4" v="1"/>
+  </dimension>
+ </channel>
+
+ <channel id="12" name="timhis_8@Square_1Hz">
+  <tag id="DataMode">timhis_8</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">8</tag>
+  <tag id="SIE:data_format">int</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Connector">n/a</tag>
+  <tag id="Description">Sim FG Square_1Hz</tag>
+  <tag id="ChanDataType">32</tag>
+  <tag id="FGMode">Square</tag>
+  <tag id="PeriodSamples">50</tag>
+  <tag id="DutyCycle">50</tag>
+  <tag id="Scale">1000</tag>
+  <tag id="Offset">0</tag>
+  <tag id="Decay">1</tag>
+  <tag id="Drift">0</tag>
+  <tag id="Cycles">10000000</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="TransducerID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="4" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">-1000</tag>
+   <tag id="FS_Max">1000</tag>
+   <units>millivolts</units>
+   <data decoder="4" v="1"/>
+  </dimension>
+ </channel>
+
+ <channel id="13" name="timhis_8@Tri_Bug">
+  <tag id="DataMode">timhis_8</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">8</tag>
+  <tag id="SIE:data_format">int</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Connector">n/a</tag>
+  <tag id="Description">Sim FG Tri_Bug</tag>
+  <tag id="ChanDataType">32</tag>
+  <tag id="FGMode">Triangle</tag>
+  <tag id="PeriodSamples">100</tag>
+  <tag id="DutyCycle">50</tag>
+  <tag id="Scale">9e+009</tag>
+  <tag id="Offset">0</tag>
+  <tag id="Decay">1</tag>
+  <tag id="Drift">0</tag>
+  <tag id="Cycles">999999</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="TransducerID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="4" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">-1</tag>
+   <tag id="FS_Max">1</tag>
+   <units></units>
+   <data decoder="4" v="1"/>
+  </dimension>
+ </channel>
+
+ <channel id="14" name="timhis_8@stop_trigger">
+  <tag id="DataMode">timhis_8</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">8</tag>
+  <tag id="SIE:data_format">uint</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Description">Time Trigger</tag>
+  <tag id="ChanDataType">264</tag>
+  <tag id="InputChs">1</tag>
+  <tag id="InputCh_1">time</tag>
+  <tag id="InFixExpr">time > 10</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="3" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">0</tag>
+   <tag id="FS_Max">0</tag>
+   <units></units>
+   <data decoder="3" v="1"/>
+  </dimension>
+ </channel>
+
+ <channel id="15" name="timhis_8@run_stopper">
+  <tag id="DataMode">timhis_8</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">8</tag>
+  <tag id="SIE:data_format">uint</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Description">Run Stopper</tag>
+  <tag id="Type_1">Logical</tag>
+  <tag id="ChanDataType">264</tag>
+  <tag id="InputChs">1</tag>
+  <tag id="InputCh_1">stop_trigger</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="3" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">0</tag>
+   <tag id="FS_Max">1</tag>
+   <units></units>
+   <data decoder="3" v="1"/>
+  </dimension>
+ </channel>
+
+ <decoder id="5">
+  <read var="v0" bits="64" type="uint" endian="little"/>
+  <loop var="v0">
+   <read var="v1" bits="16" type="int" endian="little"/>
+   <sample/>
+  </loop>
+ </decoder>
+
+ <channel id="16" name="timhis_16@Tri_1Hz">
+  <tag id="DataMode">timhis_16</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">16</tag>
+  <tag id="SIE:data_format">int</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Connector">n/a</tag>
+  <tag id="Description">Sim FG Tri_1Hz</tag>
+  <tag id="ChanDataType">32</tag>
+  <tag id="FGMode">Triangle</tag>
+  <tag id="PeriodSamples">50</tag>
+  <tag id="DutyCycle">50</tag>
+  <tag id="Scale">1000</tag>
+  <tag id="Offset">0</tag>
+  <tag id="Decay">1</tag>
+  <tag id="Drift">0</tag>
+  <tag id="Cycles">10000000</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="TransducerID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="5" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">-1000</tag>
+   <tag id="FS_Max">1000</tag>
+   <units>millivolts</units>
+   <data decoder="5" v="1"/>
+  </dimension>
+ </channel>
+
+ <channel id="17" name="timhis_16@Tri_Clip_1Hz">
+  <tag id="DataMode">timhis_16</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">16</tag>
+  <tag id="SIE:data_format">int</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Connector">n/a</tag>
+  <tag id="Description">Sim FG Tri_Clip_1Hz</tag>
+  <tag id="ChanDataType">32</tag>
+  <tag id="FGMode">Triangle</tag>
+  <tag id="PeriodSamples">50</tag>
+  <tag id="DutyCycle">50</tag>
+  <tag id="Scale">1000</tag>
+  <tag id="Offset">0</tag>
+  <tag id="Decay">1</tag>
+  <tag id="Drift">0</tag>
+  <tag id="Cycles">10000000</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="TransducerID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="5" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">-500</tag>
+   <tag id="FS_Max">500</tag>
+   <units>millivolts</units>
+   <data decoder="5" v="1"/>
+  </dimension>
+ </channel>
+
+ <channel id="18" name="timhis_16@Sine_halfHz">
+  <tag id="DataMode">timhis_16</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">16</tag>
+  <tag id="SIE:data_format">int</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Connector">n/a</tag>
+  <tag id="Description">Sim FG Sine_halfHz</tag>
+  <tag id="ChanDataType">32</tag>
+  <tag id="FGMode">Sine</tag>
+  <tag id="PeriodSamples">100</tag>
+  <tag id="DutyCycle">50</tag>
+  <tag id="Scale">1000</tag>
+  <tag id="Offset">0</tag>
+  <tag id="Decay">1</tag>
+  <tag id="Drift">0</tag>
+  <tag id="Cycles">10000000</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="TransducerID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="5" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">-1000</tag>
+   <tag id="FS_Max">1000</tag>
+   <units>millivolts</units>
+   <data decoder="5" v="1"/>
+  </dimension>
+ </channel>
+
+ <channel id="19" name="timhis_16@Sine_Clip">
+  <tag id="DataMode">timhis_16</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">16</tag>
+  <tag id="SIE:data_format">int</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Connector">n/a</tag>
+  <tag id="Description">Sim FG Sine_Clip</tag>
+  <tag id="ChanDataType">32</tag>
+  <tag id="FGMode">Sine</tag>
+  <tag id="PeriodSamples">100</tag>
+  <tag id="DutyCycle">50</tag>
+  <tag id="Scale">1000</tag>
+  <tag id="Offset">0</tag>
+  <tag id="Decay">1</tag>
+  <tag id="Drift">0</tag>
+  <tag id="Cycles">10000000</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="TransducerID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="5" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">-250</tag>
+   <tag id="FS_Max">750</tag>
+   <units>millivolts</units>
+   <data decoder="5" v="1"/>
+  </dimension>
+ </channel>
+
+ <channel id="20" name="timhis_16@Square_1Hz">
+  <tag id="DataMode">timhis_16</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">16</tag>
+  <tag id="SIE:data_format">int</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Connector">n/a</tag>
+  <tag id="Description">Sim FG Square_1Hz</tag>
+  <tag id="ChanDataType">32</tag>
+  <tag id="FGMode">Square</tag>
+  <tag id="PeriodSamples">50</tag>
+  <tag id="DutyCycle">50</tag>
+  <tag id="Scale">1000</tag>
+  <tag id="Offset">0</tag>
+  <tag id="Decay">1</tag>
+  <tag id="Drift">0</tag>
+  <tag id="Cycles">10000000</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="TransducerID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="5" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">-1000</tag>
+   <tag id="FS_Max">1000</tag>
+   <units>millivolts</units>
+   <data decoder="5" v="1"/>
+  </dimension>
+ </channel>
+
+ <channel id="21" name="timhis_16@Tri_Bug">
+  <tag id="DataMode">timhis_16</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">16</tag>
+  <tag id="SIE:data_format">int</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Connector">n/a</tag>
+  <tag id="Description">Sim FG Tri_Bug</tag>
+  <tag id="ChanDataType">32</tag>
+  <tag id="FGMode">Triangle</tag>
+  <tag id="PeriodSamples">100</tag>
+  <tag id="DutyCycle">50</tag>
+  <tag id="Scale">9e+009</tag>
+  <tag id="Offset">0</tag>
+  <tag id="Decay">1</tag>
+  <tag id="Drift">0</tag>
+  <tag id="Cycles">999999</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="TransducerID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="5" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">-1</tag>
+   <tag id="FS_Max">1</tag>
+   <units></units>
+   <data decoder="5" v="1"/>
+  </dimension>
+ </channel>
+
+ <channel id="22" name="timhis_16@stop_trigger">
+  <tag id="DataMode">timhis_16</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">8</tag>
+  <tag id="SIE:data_format">uint</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Description">Time Trigger</tag>
+  <tag id="ChanDataType">264</tag>
+  <tag id="InputChs">1</tag>
+  <tag id="InputCh_1">time</tag>
+  <tag id="InFixExpr">time > 10</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="3" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">0</tag>
+   <tag id="FS_Max">0</tag>
+   <units></units>
+   <data decoder="3" v="1"/>
+  </dimension>
+ </channel>
+
+ <channel id="23" name="timhis_16@run_stopper">
+  <tag id="DataMode">timhis_16</tag>
+  <tag id="DataModeType">MS_TIMHIS</tag>
+  <tag id="SIE:data_bits">8</tag>
+  <tag id="SIE:data_format">uint</tag>
+  <tag id="NodeName">edaq13</tag>
+  <tag id="Description">Run Stopper</tag>
+  <tag id="Type_1">Logical</tag>
+  <tag id="ChanDataType">264</tag>
+  <tag id="InputChs">1</tag>
+  <tag id="InputCh_1">stop_trigger</tag>
+  <tag id="ObjectID">0</tag>
+  <tag id="ChanType">SEQUENTIAL</tag>
+  <dimension index="0">
+   <units>sec</units>
+   <transform scale="0.02" offset="0"/>
+   <data decoder="3" v="0"/>
+  </dimension>
+  <dimension index="1">
+   <tag id="FS_Min">0</tag>
+   <tag id="FS_Max">1</tag>
+   <units></units>
+   <data decoder="3" v="1"/>
+  </dimension>
+ </channel>
+
+ <test id="0">
+  <tag id="StartTime">2005-09-08T13:14:48-0500</tag>
+  <tag id="Run">1</tag>
+  <tag id="RunDescription">None</tag>
+  <tag id="XdcrRezero">Run# 1
+</tag>
+  <channel id="24" base="0" group="4" name="timhis@Tri_1Hz.RN_1"/>
+  <channel id="25" base="1" group="5" name="timhis@Tri_Clip_1Hz.RN_1"/>
+  <channel id="26" base="2" group="6" name="timhis@Sine_halfHz.RN_1"/>
+  <channel id="27" base="3" group="7" name="timhis@Sine_Clip.RN_1"/>
+  <channel id="28" base="4" group="8" name="timhis@Square_1Hz.RN_1"/>
+  <channel id="29" base="5" group="9" name="timhis@Tri_Bug.RN_1"/>
+  <channel id="30" base="6" group="10" name="timhis@stop_trigger.RN_1"/>
+  <channel id="31" base="7" group="11" name="timhis@run_stopper.RN_1"/>
+  <channel id="32" base="8" group="12" name="timhis_8@Tri_1Hz.RN_1">
+   <dimension index="1">
+    <transform scale="8.272058824" offset="0"/>
+   </dimension>
+  </channel>
+  <channel id="33" base="9" group="13" name="timhis_8@Tri_Clip_1Hz.RN_1">
+   <dimension index="1">
+    <transform scale="4.136029412" offset="0"/>
+   </dimension>
+  </channel>
+  <channel id="34" base="10" group="14" name="timhis_8@Sine_halfHz.RN_1">
+   <dimension index="1">
+    <transform scale="8.272058824" offset="0"/>
+   </dimension>
+  </channel>
+  <channel id="35" base="11" group="15" name="timhis_8@Sine_Clip.RN_1">
+   <dimension index="1">
+    <transform scale="4.136029412" offset="250"/>
+   </dimension>
+  </channel>
+  <channel id="36" base="12" group="16" name="timhis_8@Square_1Hz.RN_1">
+   <dimension index="1">
+    <transform scale="8.272058824" offset="0"/>
+   </dimension>
+  </channel>
+  <channel id="37" base="13" group="17" name="timhis_8@Tri_Bug.RN_1">
+   <dimension index="1">
+    <transform scale="0.008272058824" offset="0"/>
+   </dimension>
+  </channel>
+  <channel id="38" base="14" group="18" name="timhis_8@stop_trigger.RN_1"/>
+  <channel id="39" base="15" group="19" name="timhis_8@run_stopper.RN_1"/>
+  <channel id="40" base="16" group="20" name="timhis_16@Tri_1Hz.RN_1">
+   <dimension index="1">
+    <transform scale="0.03231272978" offset="0"/>
+   </dimension>
+  </channel>
+  <channel id="41" base="17" group="21" name="timhis_16@Tri_Clip_1Hz.RN_1">
+   <dimension index="1">
+    <transform scale="0.01615636489" offset="0"/>
+   </dimension>
+  </channel>
+  <channel id="42" base="18" group="22" name="timhis_16@Sine_halfHz.RN_1">
+   <dimension index="1">
+    <transform scale="0.03231272978" offset="0"/>
+   </dimension>
+  </channel>
+  <channel id="43" base="19" group="23" name="timhis_16@Sine_Clip.RN_1">
+   <dimension index="1">
+    <transform scale="0.01615636489" offset="250"/>
+   </dimension>
+  </channel>
+  <channel id="44" base="20" group="24" name="timhis_16@Square_1Hz.RN_1">
+   <dimension index="1">
+    <transform scale="0.03231272978" offset="0"/>
+   </dimension>
+  </channel>
+  <channel id="45" base="21" group="25" name="timhis_16@Tri_Bug.RN_1">
+   <dimension index="1">
+    <transform scale="3.231272978e-05" offset="0"/>
+   </dimension>
+  </channel>
+  <channel id="46" base="22" group="26" name="timhis_16@stop_trigger.RN_1"/>
+  <channel id="47" base="23" group="27" name="timhis_16@run_stopper.RN_1"/>
+ </test>
+
+
+ <test id="0">
+  <tag id="EndTime">2005-09-08T13:14:59-0500</tag>
+  <tag id="ElapsedTime">10</tag>
+  <channel id="24">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="25">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="26">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="27">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="28">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="29">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="30">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="31">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="32">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="33">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="34">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="35">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="36">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="37">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="38">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="39">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="40">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="41">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="42">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="43">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="44">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="45">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="46">
+   <tag id="Timestamp">520</tag>
+  </channel>
+  <channel id="47">
+   <tag id="Timestamp">520</tag>
+  </channel>
+ </test>
+</sie>

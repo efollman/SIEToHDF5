@@ -1,0 +1,21 @@
+.{
+    .name = .SIEtoHDF5,
+    .version = "0.1.0",
+    .fingerprint = 0xdf453c20c50b8097, // Changing this has security and trust implications.
+    .minimum_zig_version = "0.15.2",
+    .dependencies = .{
+        .libsie = .{
+            .url = "git+https://github.com/efollman/libsie-zig.git#331f2dc15fb6823982f9ea3f50e60a1953372d69",
+            .hash = "N-V-__8AABtBegDMUhFbtT6JS3-8uQI2CpuJbwzYLHXxfW5h",
+        },
+        .hdf5 = .{
+            .url = "https://github.com/HDFGroup/hdf5/archive/refs/tags/2.1.1.tar.gz",
+            .hash = "N-V-__8AAEJlCw6diB9w3mfIldAS5c2K-8vKwhIkeCAagIgi",
+        },
+    },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+    },
+}

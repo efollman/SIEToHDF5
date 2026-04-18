@@ -1,0 +1,28 @@
+<decoder id="42">
+  <read var="v0" type="uint" bits="8"/>
+  <sample/>
+  <seek from="start" offset="4"/>
+  <read var="v0" type="uint" bits="8"/>
+  <sample/>
+  <seek from="current" offset="-2"/>
+  <read var="v0" type="uint" bits="8"/>
+  <sample/>
+  <seek from="end" offset="-1"/>
+  <read var="v0" type="uint" bits="8"/>
+  <sample/>
+  <seek from="start" offset="0"/>
+  <read var="v0" type="uint" bits="8"/>
+  <sample/>
+  <seek from="end" offset="0"/>
+  <read var="v0" type="uint" bits="8"/>
+  <sample/>
+</decoder>
+
+0 1 2 3 4 5 6 7
+
+1
+0
+4
+3
+7
+0

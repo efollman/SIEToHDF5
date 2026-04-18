@@ -1,0 +1,48 @@
+<decoder>
+ <read var="v0" bits="64" type="uint" endian="little"/>
+ <read var="count" bits="32" type="uint" endian="little"/>
+ <loop var="t0" end="{$count}">
+  <if condition="{!($t0 &amp; 7)}">
+   <read var="vb" bits="8" type="uint" endian="little"/>
+  </if>
+  <set var="v1" value="{($vb >> (7 - ($t0 &amp; 7)) &amp; 1)}"/>
+  <sample/>
+  <set var="v0" value="{$v0 + 1}"/>
+ </loop>
+</decoder>
+
+00 00 00 00 00 00 00 00
+13 00 00 00
+# 19 bits count
+92 34 56 78
+# 10010010001101000101011001111000
+
+2
+0 1
+1 0
+2 0
+3 1
+4 0
+5 0
+6 1
+7 0
+8 0
+9 0
+10 1
+11 1
+12 0
+13 1
+14 0
+15 0
+16 0
+17 1
+18 0
+
+00 00 00 00 00 00 00 00
+01 00 00 00
+# 0 bits count
+12 34 56 78
+# trash
+
+2
+0 0
