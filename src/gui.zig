@@ -181,10 +181,10 @@ const MAX_VISIBLE_FILES_SOFT: usize = 10; // soft cap for *initial* auto-sized w
 // + (FIELD_H + 8) + 16 (Export All button + spacing)
 // + 22 ("Formats" label) + 18 (checkbox row, cb_size) + 16 (spacing)
 // + 8  (bottom margin)
-const NON_LIST_FIXED_H: f32 = PAD + 22 + 12 + 22 + FIELD_H + 16 + (FIELD_H + 8) + 16 + 22 + 18 + 16 + 8;
+const NON_LIST_FIXED_H: f32 = PAD + 22 + 12 + 22 + FIELD_H + 16 + (FIELD_H + 8) + 16 + 22 + 18 + 8 + 18 + 16 + 8;
 
 // Output extensions in the same order as FORMAT_SHORT.
-const FORMAT_EXTS = [_][]const u8{ ".h5", ".txt", ".csv", ".xlsx" };
+const FORMAT_EXTS = [_][]const u8{ ".h5", ".txt", ".csv", ".xlsx", ".asc" };
 
 // ── Application state ─────────────────────────────────────────────────────
 
@@ -197,9 +197,11 @@ const FileResult = struct {
     message_len: usize = 0,
 };
 
-const NUM_FORMATS: usize = 4;
+const NUM_FORMATS: usize = 5;
 /// Short labels shown in per-format status badges.
-const FORMAT_SHORT = [_][:0]const u8{ "H5", "TXT", "CSV", "XLSX" };
+const FORMAT_SHORT = [_][:0]const u8{ "H5", "TXT", "CSV", "XLSX", "ASC" };
+/// Long labels shown next to format checkboxes.
+const FORMAT_LABEL = [_][:0]const u8{ "H5", "TXT", "CSV", "XLSX", "Vector Style ASCII (CAN only)" };
 
 /// Per-format task associated with a single input file.
 const FormatTask = struct {
@@ -235,10 +237,11 @@ const AppState = struct {
     out_dir_edit: bool = false,
     font: rl.Font = undefined,
     font_loaded: bool = false,
-    /// Which formats are selected for export (0=HDF5, 1=ASCII, 2=CSV, 3=XLSX).
+    /// Which formats are selected for export
+    /// (0=HDF5, 1=ASCII, 2=CSV, 3=XLSX, 4=Vector ASC).
     /// Default to none selected; the on-disk config restores the user's last
     /// selection at startup (see loadConfig / saveConfig).
-    format_selected: [NUM_FORMATS]bool = .{ false, false, false, false },
+    format_selected: [NUM_FORMATS]bool = .{ false, false, false, false, false },
     /// Queue of files to export
     files: std.ArrayListUnmanaged(FileItem) = .{},
     /// Scroll offset (pixels) for the file queue list.
@@ -701,11 +704,14 @@ pub fn main() !void {
         y += 22;
         const cb_size: f32 = 18;
         const cb_spacing: f32 = 90;
-        for (0..NUM_FORMATS) |fmt_i| {
+        // First 4 short-labelled formats on one row.
+        for (0..4) |fmt_i| {
             const cx = PAD + @as(f32, @floatFromInt(fmt_i)) * cb_spacing;
-            const label_z = FORMAT_SHORT[fmt_i];
-            _ = rg.checkBox(rl.Rectangle.init(cx, y, cb_size, cb_size), label_z, &app.format_selected[fmt_i]);
+            _ = rg.checkBox(rl.Rectangle.init(cx, y, cb_size, cb_size), FORMAT_LABEL[fmt_i], &app.format_selected[fmt_i]);
         }
+        y += cb_size + 8;
+        // Vector ASC gets its own row because the label is long.
+        _ = rg.checkBox(rl.Rectangle.init(PAD, y, cb_size, cb_size), FORMAT_LABEL[4], &app.format_selected[4]);
         y += cb_size + 16;
 
         // ── Window auto-fit ───────────────────────────────────────────
@@ -789,6 +795,10 @@ fn formatExportWorker(job: *FormatExportJob) void {
             result.success = false;
             result.message_len = (std.fmt.bufPrint(&result.message, "XLSX: {}", .{err}) catch "").len;
         },
+        4 => ExportSIE.vector_asc_export.convert(job.allocator, in_z, out_z) catch |err| {
+            result.success = false;
+            result.message_len = (std.fmt.bufPrint(&result.message, "ASC: {}", .{err}) catch "").len;
+        },
         else => {
             result.success = false;
             result.message_len = (std.fmt.bufPrint(&result.message, "Bad format idx", .{}) catch "").len;
@@ -800,6 +810,8 @@ fn formatExportWorker(job: *FormatExportJob) void {
 }
 
 /// Build an output path: out_dir/stem.ext, where ext is selected by format_idx.
+/// Vector ASC outputs are prefixed with "Vector-" so they don't collide with
+/// the basic ASCII export when both formats are selected.
 fn buildOutPath(allocator: std.mem.Allocator, in_path: []const u8, out_dir: []const u8, format_idx: usize) ?[]u8 {
     const sep_idx = std.mem.lastIndexOfAny(u8, in_path, "/\\") orelse 0;
     const filename = if (sep_idx > 0) in_path[sep_idx + 1 ..] else in_path;
@@ -807,7 +819,8 @@ fn buildOutPath(allocator: std.mem.Allocator, in_path: []const u8, out_dir: []co
     const stem = filename[0..dot_idx];
     const ext = FORMAT_EXTS[format_idx];
     const dir = std.mem.trimRight(u8, out_dir, "/\\");
-    return std.fmt.allocPrint(allocator, "{s}\\{s}{s}", .{ dir, stem, ext }) catch null;
+    const prefix: []const u8 = if (format_idx == 4) "Vector-" else "";
+    return std.fmt.allocPrint(allocator, "{s}\\{s}{s}{s}", .{ dir, prefix, stem, ext }) catch null;
 }
 
 fn startFormatExport(app: *AppState, f: *FileItem, format_idx: usize) void {

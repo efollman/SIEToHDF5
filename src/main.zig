@@ -9,27 +9,56 @@ pub fn main() !void {
     const args = try std.process.argsAlloc(allocator);
     defer std.process.argsFree(allocator, args);
 
-    if (args.len < 3) {
+    // Parse optional flags. Currently supports `--vector-asc` to force
+    // Vector CANalyzer ASCII output (otherwise the format is chosen by the
+    // output file extension, and `.txt` produces the basic ASCII dump).
+    var force_vector_asc = false;
+    var positional: [3][:0]const u8 = undefined;
+    var npos: usize = 0;
+    var i: usize = 1;
+    while (i < args.len) : (i += 1) {
+        const a = args[i];
+        if (std.mem.eql(u8, a, "--vector-asc")) {
+            force_vector_asc = true;
+        } else if (std.mem.eql(u8, a, "--help") or std.mem.eql(u8, a, "-h")) {
+            npos = 0; // force usage print
+            break;
+        } else {
+            if (npos < positional.len) {
+                positional[npos] = a;
+                npos += 1;
+            }
+        }
+    }
+
+    if (npos < 2) {
         const stderr = std.fs.File.stderr();
         var buf: [4096]u8 = undefined;
         var w = stderr.writer(&buf);
-        try w.interface.print("Usage: exportsie <input.sie> <output.[h5|txt|csv|xlsx]>\n\n", .{});
+        try w.interface.print("Usage: exportsie [--vector-asc] <input.sie> <output.[h5|txt|csv|xlsx|asc]>\n\n", .{});
         try w.interface.print("Supported output formats (determined by file extension):\n", .{});
         try w.interface.print("  .h5 / .hdf5  \xe2\x80\x94 HDF5 hierarchical data format\n", .{});
         try w.interface.print("  .txt         \xe2\x80\x94 ASCII text export (tags + tab-separated data)\n", .{});
         try w.interface.print("  .csv         \xe2\x80\x94 Comma-separated values (side-by-side channels)\n", .{});
         try w.interface.print("  .xlsx        \xe2\x80\x94 Excel 2007+ spreadsheet\n", .{});
+        try w.interface.print("  .asc         \xe2\x80\x94 Vector CANalyzer ASCII (CAN channels only; merged & sorted)\n", .{});
+        try w.interface.print("\nFlags:\n", .{});
+        try w.interface.print("  --vector-asc  Force Vector ASCII output regardless of extension\n", .{});
         try w.interface.flush();
         std.process.exit(1);
     }
 
-    const input_path = args[1];
-    const output_path = args[2];
+    const input_path = positional[0];
+    const output_path = positional[1];
 
-    // Determine export format from output file extension
+    // Determine export format from output file extension or override flag.
     const ext = extensionOf(output_path);
 
-    if (std.ascii.eqlIgnoreCase(ext, ".h5") or std.ascii.eqlIgnoreCase(ext, ".hdf5")) {
+    if (force_vector_asc or std.ascii.eqlIgnoreCase(ext, ".asc")) {
+        ExportSIE.vector_asc_export.convert(allocator, input_path, output_path) catch |err| {
+            return fail("Vector ASC export failed: {}\n", .{err});
+        };
+    } else if (std.ascii.eqlIgnoreCase(ext, ".h5") or std.ascii.eqlIgnoreCase(ext, ".hdf5")) {
         ExportSIE.hdf5_export.convert(allocator, input_path, output_path) catch |err| {
             return fail("HDF5 export failed: {}\n", .{err});
         };
@@ -46,7 +75,7 @@ pub fn main() !void {
             return fail("XLSX export failed: {}\n", .{err});
         };
     } else {
-        return fail("Unsupported output format: '{s}'\nUse one of: .h5, .hdf5, .txt, .csv, .xlsx\n", .{ext});
+        return fail("Unsupported output format: '{s}'\nUse one of: .h5, .hdf5, .txt, .csv, .xlsx, .asc\n", .{ext});
     }
 }
 
