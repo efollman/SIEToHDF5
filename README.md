@@ -199,4 +199,4 @@ https://github.com/efollman/ConvertSIE
 
 ## License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details. The J1939 DM1 parser in `src/can_err.zig` is adapted from [CanErrFindr-Zig](https://github.com/efollman/CanErrFindr-Zig) (also MIT).
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
